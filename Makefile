@@ -6,7 +6,7 @@ INCLDIR	    :=	include
 export INCLUDE	:=	$(foreach dir,$(INCLDIR),-I$(CURDIR)/$(dir)) # -I$(CURDIR)/$(BUILD)
 export SOURCE   :=  $(foreach dir,$(SRCDIR),$(wildcard $(dir)/*))
 
-CFLAGS	:= -g -Wall -O2 $(INCLUDE)
+CFLAGS	:= -g -Wall $(INCLUDE)
 
 $(BUILD): $(SOURCE)
 	[ -d $@ ] || mkdir -p $@

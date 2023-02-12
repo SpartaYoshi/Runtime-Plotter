@@ -5,6 +5,20 @@
 #include "../include/ds.h"
 #include "../include/globals.h"
 
+void print_matrix(float **m, int m_rows, int m_cols){
+    
+    int col, row;
+    
+    for (row = 0; row < m_rows; row++){
+        for(col = 0; col < m_cols; col++){
+            printf("%.2f  ", m[row][col]);
+        }
+        printf("\n");
+    }
+    printf("\n");
+}
+
+
 int main (int argc, char *argv[]) {
 
 	if (argc != 2) {
@@ -16,13 +30,14 @@ int main (int argc, char *argv[]) {
 	ds_t ds;
 	bm_t bm;
 
-	alloc_dataset(&ds);
 	import_data(&ds, argv[1]);
 
 	bm.rows  = ds.rows;
 	bm.cols  = ds.cols;
 	bm.procs = ds.procs;
 
+	print_matrix(ds.runtime, ds.rows, ds.cols);
+	
 	alloc_benchmark(&bm);
 
 	// Calculate benchmark metrics (speedup and efficiency)
@@ -34,3 +49,4 @@ int main (int argc, char *argv[]) {
 
 	exit(0);
 }
+

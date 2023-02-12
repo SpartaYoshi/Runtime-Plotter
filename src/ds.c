@@ -7,12 +7,12 @@
 #include "../include/globals.h"
 
 
-void alloc_dataset(ds_t *ds){
+void alloc_ds(ds_t *ds){
 	int i;
-	ds->procs   = (uint8_t *) malloc(ds->rows * sizeof(uint8_t));
-    ds->runtime = (float **)  malloc(ds->rows * sizeof(float *));
+	ds->procs   = (uint8_t *) calloc(ds->rows, sizeof(uint8_t));
+    ds->runtime = (float **)  calloc(ds->rows, sizeof(float *));
 	for (i = 0; i < ds->rows; i++)
-		ds->runtime[i] = (float *) malloc(ds->cols-1 * sizeof(float));
+		ds->runtime[i] = (float *) calloc(ds->cols-1, sizeof(float));
 }
 
 
@@ -41,8 +41,8 @@ void import_data(ds_t *ds, char *path){
 		   While loop exists to skip all comments until first usable line. 
 		   PREASSUMPTION: all rows have n columns                          */
 
-		// Ignore if comment
-		if (line[0] == '#')
+		// Ignore if comment or empty line
+		if (line[0] == '#' || line[0] == '\n')
 			continue;
 
 		// Split line into columns and count
@@ -60,8 +60,8 @@ void import_data(ds_t *ds, char *path){
 	// Check number of rows
 	while(fgets(line, BSZ, fp) != NULL) { // while ( !feof(fp) )
 		
-		// Ignore if comment
-		if (line[0] == '#')
+		// Ignore if comment or empty line
+		if (line[0] == '#' || line[0] == '\n')
 			continue;
 
 		ds->rows++;
@@ -70,13 +70,15 @@ void import_data(ds_t *ds, char *path){
 
 
 	/*#########################################*/
+	// Allocate
+	alloc_ds(ds);
 
 	// Import data
 	int i, j, scan;
 	while(fgets(line, BSZ, fp) != NULL) {
 
-		// Ignore if comment
-		if (line[0] == '#')
+		// Ignore if comment or empty line
+		if (line[0] == '#' || line[0] == '\n')
 			continue;
 
 		// Store into dataset
