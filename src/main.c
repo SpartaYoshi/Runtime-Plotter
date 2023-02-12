@@ -17,7 +17,7 @@ int main (int argc, char *argv[]) {
 	bm_t bm;
 
 	alloc_dataset(&ds);
-	import_data(argv[1], &ds);
+	import_data(&ds, argv[1]);
 
 	bm.rows  = ds.rows;
 	bm.cols  = ds.cols;
