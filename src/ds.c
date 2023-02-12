@@ -16,14 +16,14 @@ void alloc_ds(ds_t *ds){
 }
 
 
-int import_data(ds_t *ds, char *path){
+void import_data(ds_t *ds, char *path){
 	FILE* fp;
 
 	// Open file (read-only)
 	fp = fopen(path, "r");
     if (fp == NULL) {
         fprintf(stderr, "Error opening file: %s\n", strerror( errno ));
-        return 1;
+        exit(ER_OPEN);
     }
 	
 	// Init variables
@@ -91,7 +91,7 @@ int import_data(ds_t *ds, char *path){
 		}		
 	}
 
-	return 0;
+	return;
 }
 
 
