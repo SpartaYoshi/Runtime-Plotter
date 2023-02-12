@@ -1,3 +1,4 @@
+#include <stdio.h>
 #include <stdlib.h>
 
 #include "../include/globals.h"
@@ -42,4 +43,14 @@ void calc_efficiency(bm_t *bm){
 
 	for (i = 0; i < bm->rows; i++)
 		bm->efficiency[i] = bm->speedup[i] / bm->procs[i];
+}
+
+
+void print_benchmark(bm_t *bm){
+	int i; 
+	printf("#procs\truntime\t\t\tspeedup\t\t\tefficiency\n");
+	printf("#=====\t=======\t\t\t=======\t\t\t==========\n");
+
+	for (i = 0; i < bm->rows; i++)
+		printf("%d\t%.6f\t\t%.6f\t\t%.6f\n", bm->procs[i], bm->avg_runtime[i], bm->speedup[i], bm->efficiency[i]);
 }
