@@ -32,6 +32,8 @@ void import_data(ds_t *ds, char *path){
 	char *tp; 				// Split string pointer (token)
 
 	ds->rows = ds->cols = 0;
+	int total_rows = 0;
+	int *skip_bitmap = (int *) malloc(total_rows * sizeof(int)); // Bitmap to skip unusable lines
 
 	/*#########################################*/
 
@@ -59,11 +61,15 @@ void import_data(ds_t *ds, char *path){
 
 	// Check number of rows
 	while(fgets(line, BSZ, fp) != NULL) { // while ( !feof(fp) )
-		
-		// Ignore if comment or empty line
-		if (line[0] == '#' || line[0] == '\n')
-			continue;
+		skip_bitmap = (int *) realloc(skip_bitmap, ++total_rows * sizeof(int));
 
+		// Ignore if comment or empty line
+		if (line[0] == '#' || line[0] == '\n') {
+			skip_bitmap[total_rows-1] = 1;
+			continue;
+		}
+
+		skip_bitmap[total_rows-1] = 0;
 		ds->rows++;
 	}
 	rewind(fp);
@@ -73,31 +79,37 @@ void import_data(ds_t *ds, char *path){
 	// Allocate
 	alloc_ds(ds);
 
-	// Import data
-	int i, j, scan;
-	while(fgets(line, BSZ, fp) != NULL) {
+	// Store into dataset (import)
+	int i, j, k, scan;
 
-		// Ignore if comment or empty line
-		if (line[0] == '#' || line[0] == '\n')
+	k = 0;
+
+	for (i = 0; i < ds->rows; i++){
+		
+		// Skip if unusable line
+		if(skip_bitmap[k++]){
+			fgets(line, BSZ, fp);
+			i--;
 			continue;
+		}	
 
-		// Store into dataset
-		for (i = 0; i < ds->rows; i++){
-			scan = fscanf(fp, "%hhu", &ds->procs[i]);
+		// Scan file	
+		scan = fscanf(fp, "%hhu", &ds->procs[i]);
+		if (!scan){
+			fprintf(stderr, "Error reading file: %s\n", strerror( errno ));
+			exit(ER_READ);
+		}
+			
+		for (j = 0; j < ds->cols-1; j++){
+			scan = fscanf(fp, "%f", &ds->runtime[i][j]);
 			if (!scan){
 				fprintf(stderr, "Error reading file: %s\n", strerror( errno ));
-        		exit(ER_READ);
+				exit(ER_READ);
 			}
-				
-			for (j = 0; j < ds->cols-1; j++){
-				scan = fscanf(fp, "%f", &ds->runtime[i][j]);
-				if (!scan){
-					fprintf(stderr, "Error reading file: %s\n", strerror( errno ));
-					exit(ER_READ);
-				}
-			}
-		}		
-	}
+		}
+	}		
+	
+	fclose(fp);
 
 	return;
 }
