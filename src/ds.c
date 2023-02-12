@@ -7,7 +7,7 @@
 #include "../include/globals.h"
 
 
-void alloc_ds(ds_t *ds){
+void alloc_dataset(ds_t *ds){
 	int i;
 	ds->procs   = (uint8_t *) malloc(ds->rows * sizeof(uint8_t));
     ds->runtime = (float **)  malloc(ds->rows * sizeof(float *));
@@ -71,11 +71,8 @@ void import_data(ds_t *ds, char *path){
 
 	/*#########################################*/
 
-	// Allocate
-	alloc_ds(ds);
-
 	// Import data
-	int i, j;
+	int i, j, scan;
 	while(fgets(line, BSZ, fp) != NULL) {
 
 		// Ignore if comment
@@ -84,10 +81,19 @@ void import_data(ds_t *ds, char *path){
 
 		// Store into dataset
 		for (i = 0; i < ds->rows; i++){
-			fscanf(fp, "%hhu", &ds->procs[i]);
-
-			for (j = 0; j < ds->cols-1; j++)
-				fscanf(fp, "%f", &ds->runtime[i][j]);
+			scan = fscanf(fp, "%hhu", &ds->procs[i]);
+			if (!scan){
+				fprintf(stderr, "Error reading file: %s\n", strerror( errno ));
+        		exit(ER_READ);
+			}
+				
+			for (j = 0; j < ds->cols-1; j++){
+				scan = fscanf(fp, "%f", &ds->runtime[i][j]);
+				if (!scan){
+					fprintf(stderr, "Error reading file: %s\n", strerror( errno ));
+					exit(ER_READ);
+				}
+			}
 		}		
 	}
 

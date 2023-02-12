@@ -6,7 +6,7 @@ INCLDIR	    :=	include
 export INCLUDE	:=	$(foreach dir,$(INCLDIR),-I$(CURDIR)/$(dir)) # -I$(CURDIR)/$(BUILD)
 export SOURCE   :=  $(foreach dir,$(SRCDIR),$(wildcard $(dir)/*))
 
-CFLAGS	:=	-lm -g -Wall -O2 $(INCLUDE)
+CFLAGS	:= -g -Wall -O2 $(INCLUDE)
 
 $(BUILD): $(SOURCE)
 	[ -d $@ ] || mkdir -p $@
@@ -14,7 +14,7 @@ $(BUILD): $(SOURCE)
 #	gcc $(CFLAGS) -c $^ -o $(patsubst %.c,$(BUILD)/%.o,$(notdir $(SOURCE)))
 
 
-$(TARGET): $(BUILD)/%.o
+plotter:
 	gcc $(CFLAGS) $(wildcard $(BUILD)/*) -o $(TARGET)
 
 clean:
