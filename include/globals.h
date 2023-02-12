@@ -27,6 +27,7 @@ typedef struct {
 	int rows, cols;
 
 	uint8_t* procs;
+	float* 	 avg_runtime;
 	float*   speedup;
 	float*   efficiency;
 } bm_t;

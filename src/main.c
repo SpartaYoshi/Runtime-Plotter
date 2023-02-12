@@ -36,16 +36,17 @@ int main (int argc, char *argv[]) {
 	bm.cols  = ds.cols;
 	bm.procs = ds.procs;
 
-	print_matrix(ds.runtime, ds.rows, ds.cols);
+	print_matrix(ds.runtime, ds.rows, ds.cols-1); // borrar
 	
 	alloc_benchmark(&bm);
 
 	// Calculate benchmark metrics (speedup and efficiency)
-	calc_speedup(&ds, &bm);
+	calc_avg_runtime(&ds, &bm);
+	calc_speedup(&bm);
 	calc_efficiency(&bm);
 
-	//test
-	printf("%f", bm.efficiency[2]);
+	
+	
 
 	exit(0);
 }
