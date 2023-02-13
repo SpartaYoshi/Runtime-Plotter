@@ -2,8 +2,8 @@
 #include <stdlib.h>
 
 #include "../include/bmark.h"
-#include "../include/ds.h"
-#include "../include/globals.h"
+#include "../include/data.h"
+#include "../include/commons.h"
 #include "../include/plot.h"
 
 

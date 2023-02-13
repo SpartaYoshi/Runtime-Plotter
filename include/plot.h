@@ -1,7 +1,7 @@
 #ifndef PLOT_H
 #define PLOT_H
 
-#include "globals.h"
+#include "commons.h"
 
 void plot_graphics(bm_t *bm);
 

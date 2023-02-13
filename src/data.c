@@ -3,8 +3,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <sys/stat.h>
 
-#include "../include/globals.h"
+
+#include "../include/commons.h"
 
 
 void alloc_ds(ds_t *ds){
@@ -17,7 +19,7 @@ void alloc_ds(ds_t *ds){
 
 
 void import_data(ds_t *ds, char *path){
-	FILE* fp;
+	FILE* fp; // File pointer
 
 	// Open file (read-only)
 	fp = fopen(path, "r");
@@ -113,3 +115,33 @@ void import_data(ds_t *ds, char *path){
 }
 
 
+
+void export_data(bm_t *bm){
+	FILE *fp; // File pointer
+	struct stat sb;
+	int i;
+
+	// Create output folder (if not exists)
+	char *dir = "./out";
+    if (stat(dir, &sb) != 0 || !S_ISDIR(sb.st_mode)){
+		mode_t perms = 0777 - umask(umask(0)); // Get umask and apply inverse to new dir
+		mkdir(dir, perms);
+	}
+	
+	// Open file to write
+	fp = fopen("./out/results.dat", "w");
+	if (fp == NULL) {
+        fprintf(stderr, "Error opening file: %s\n", strerror( errno ));
+        exit(ER_OPEN);
+    }
+
+
+	// Export data
+	fprintf(fp, "#procs\truntime\t\t\tspeedup\t\t\tefficiency\n");
+	fprintf(fp, "#=====\t=======\t\t\t=======\t\t\t==========\n");
+
+	for (i = 0; i < bm->rows; i++)
+		fprintf(fp, "%d\t%.6f\t\t%.6f\t\t%.6f\n", bm->procs[i], bm->avg_runtime[i], bm->speedup[i], bm->efficiency[i]);
+
+	fclose(fp);
+}
