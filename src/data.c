@@ -18,6 +18,15 @@ void alloc_ds(ds_t *ds){
 }
 
 
+void free_ds(ds_t *ds){
+	int i;
+	free(ds->procs);
+    free(ds->runtime);
+	for (i = 0; i < ds->rows; i++)
+		free(ds->runtime[i]);
+}
+
+
 void import_data(ds_t *ds, char *path){
 	FILE* fp; // File pointer
 

@@ -13,6 +13,13 @@ void alloc_benchmark(bm_t *bm){
 }
 
 
+void free_benchmark(bm_t *bm){
+	free(bm->avg_runtime);
+	free(bm->speedup);
+	free(bm->efficiency);
+}
+
+
 void calc_avg_runtime(ds_t *ds, bm_t *bm){
 	int i, j;
 	float avg;

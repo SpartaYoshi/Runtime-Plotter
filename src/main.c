@@ -38,6 +38,10 @@ int main (int argc, char *argv[]) {
 	// Plot results into graphics with gnuplot
 	plot_graphics(&bm);
 	
+	// Free memory
+	free_ds(&ds);
+	free_benchmark(&bm);
+
 	exit(0);
 }
 
