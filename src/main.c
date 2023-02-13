@@ -4,6 +4,7 @@
 #include "../include/bmark.h"
 #include "../include/ds.h"
 #include "../include/globals.h"
+#include "../include/plot.h"
 
 
 int main (int argc, char *argv[]) {
@@ -30,7 +31,12 @@ int main (int argc, char *argv[]) {
 	calc_speedup(&bm);
 	calc_efficiency(&bm);
 
+	// Show on console and export
 	print_benchmark(&bm);
+	export_data(&bm);
+
+	// Plot results into graphics with gnuplot
+	plot_graphics(&bm);
 	
 	exit(0);
 }
