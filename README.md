@@ -3,12 +3,10 @@
 
 ## Description
  Reads data of execution time per number of processors, benchmarks performance metrics and plots results in graphs.
-
  For the plot graphics, _gnuplot_ is used. Results are stored in the **out/** folder, both benchmarks and graphs.
 
 ## Inputting data
  A few data samples have been provided for testing the program.
- 
  If you want to make your own, please follow the same format. 
 
  **IMPORTANT NOTES:**
