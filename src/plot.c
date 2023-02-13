@@ -1,7 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/commons.h"
+#include "commons.h"
 
 void plot_graphics(bm_t *bm){
 	/* Opens an interface that one can use to send commands as if they were typing into the

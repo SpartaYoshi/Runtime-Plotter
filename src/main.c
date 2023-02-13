@@ -1,10 +1,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#include "../include/bmark.h"
-#include "../include/data.h"
-#include "../include/commons.h"
-#include "../include/plot.h"
+#include "bmark.h"
+#include "data.h"
+#include "commons.h"
+#include "plot.h"
 
 
 int main (int argc, char *argv[]) {

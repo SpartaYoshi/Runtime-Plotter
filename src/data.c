@@ -6,7 +6,7 @@
 #include <sys/stat.h>
 
 
-#include "../include/commons.h"
+#include "commons.h"
 
 
 void alloc_ds(ds_t *ds){
@@ -21,9 +21,9 @@ void alloc_ds(ds_t *ds){
 void free_ds(ds_t *ds){
 	int i;
 	free(ds->procs);
-    free(ds->runtime);
 	for (i = 0; i < ds->rows; i++)
 		free(ds->runtime[i]);
+	free(ds->runtime);
 }
 
 

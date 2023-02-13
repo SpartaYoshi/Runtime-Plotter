@@ -3,7 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "../include/commons.h"
+#include "commons.h"
 
 
 void alloc_benchmark(bm_t *bm){
