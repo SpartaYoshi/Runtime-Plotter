@@ -46,9 +46,11 @@ void plot_graphics(bm_t *bm){
 		"plot 'out/results.dat' using 4:xticlabels(1) t '' with linespoints ls 1"
 	};
 
+
+	// Send commands to gnuplot one by one.
 	int i;
 	for (i = 0; i < LENGTH(cmdseq); i++)
-		fprintf(gnuplotPipe, "%s \n", cmdseq[i]); //Send commands to gnuplot one by one.
+		fprintf(gnuplotPipe, "%s \n", cmdseq[i]); 
 	
 	for (i = 0; i < LENGTH(cmdseq2); i++)
 		fprintf(gnuplotPipe, "%s \n", cmdseq2[i]); 
