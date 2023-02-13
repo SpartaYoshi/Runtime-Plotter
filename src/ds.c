@@ -9,7 +9,7 @@
 
 void alloc_ds(ds_t *ds){
 	int i;
-	ds->procs   = (uint8_t *) calloc(ds->rows, sizeof(uint8_t));
+	ds->procs   = (uint16_t *) calloc(ds->rows, sizeof(uint16_t));
     ds->runtime = (float **)  calloc(ds->rows, sizeof(float *));
 	for (i = 0; i < ds->rows; i++)
 		ds->runtime[i] = (float *) calloc(ds->cols-1, sizeof(float));
@@ -94,7 +94,7 @@ void import_data(ds_t *ds, char *path){
 		}	
 
 		// Scan file	
-		scan = fscanf(fp, "%hhu", &ds->procs[i]);
+		scan = fscanf(fp, "%hu", &ds->procs[i]);
 		if (!scan){
 			fprintf(stderr, "Error reading file: %s\n", strerror( errno ));
 			exit(ER_READ);
@@ -110,8 +110,6 @@ void import_data(ds_t *ds, char *path){
 	}		
 	
 	fclose(fp);
-
-	return;
 }
 
 

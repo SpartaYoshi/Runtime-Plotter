@@ -13,12 +13,16 @@
 #define ER_READ 3
 
 
+/* MACROS */
+#define LENGTH(x) ( sizeof(x) / sizeof((x)[0]) )
+
+
 /* STRUCTURES */
 // Dataset type
 typedef struct {
 	int rows, cols;
 
-	uint8_t* procs;
+	uint16_t* procs;
 	float**  runtime;
 } ds_t;
 
@@ -26,7 +30,7 @@ typedef struct {
 typedef struct {
 	int rows, cols;
 
-	uint8_t* procs;
+	uint16_t* procs;
 	float* 	 avg_runtime;
 	float*   speedup;
 	float*   efficiency;

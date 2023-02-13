@@ -32,7 +32,6 @@ int main (int argc, char *argv[]) {
 
 	print_benchmark(&bm);
 	
-
 	exit(0);
 }
 
