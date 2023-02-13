@@ -29,9 +29,9 @@ void import_data(ds_t *ds, char *path){
     }
 	
 	// Init variables
-	char line[BSZ];			// Line buffer
-	char del[] = " \t\n";	// Delimiters for splitting
-	char *tp; 				// Split string pointer (token)
+	char line[BSZ];			    // Line buffer
+	char del[] = " \t\n";		// Delimiters for splitting
+	char *tp; 				    // Split string pointer (token)
 
 	ds->rows = ds->cols = 0;
 	int total_rows = 0;
@@ -45,15 +45,15 @@ void import_data(ds_t *ds, char *path){
 		   While loop exists to skip all comments until first usable line. 
 		   PREASSUMPTION: all rows have n columns                          */
 
-		// Ignore if comment or empty line
-		if (line[0] == '#' || line[0] == '\n')
+		// Ignore if comment or empty line (+ others)
+		if (strchr("#\v\r\n", line[0]) != NULL)
 			continue;
 
 		// Split line into columns and count
 		tp = strtok(line, del);
         while(tp) {
             ds->cols++;
-            tp = strtok(NULL, tp);
+            tp = strtok(NULL, del);
         }
 
 		break; // n columns checked.
@@ -65,8 +65,8 @@ void import_data(ds_t *ds, char *path){
 	while(fgets(line, BSZ, fp) != NULL) { // while ( !feof(fp) )
 		skip_bitmap = (int *) realloc(skip_bitmap, ++total_rows * sizeof(int));
 
-		// Ignore if comment or empty line
-		if (line[0] == '#' || line[0] == '\n') {
+		// Ignore if comment or empty line (+ others)
+		if (strchr("#\v\r\n", line[0]) != NULL){
 			skip_bitmap[total_rows-1] = 1;
 			continue;
 		}
